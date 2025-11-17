@@ -125,6 +125,21 @@ The test suite validates:
   - Spread: $157.50 (51%)
   - Risk: $3.43 (1%)
 
+### Visualizations
+
+Publication-quality figures (300 DPI) from Monte Carlo analysis:
+
+![Monte Carlo Cost Distributions](docs/images/results/monte_carlo_cost_distributions.png)
+*Cost distributions across 50 Monte Carlo scenarios for 5 stocks*
+
+![Trading Trajectories](docs/images/results/trading_trajectories_optimal_vs_twap.png)
+*Optimal execution strategy vs TWAP baseline - demonstrates front-loading*
+
+![Liquidity Impact Dashboard](docs/images/results/liquidity_impact_dashboard.png)
+*Comprehensive 4-panel analysis dashboard*
+
+See [`docs/images/results/`](docs/images/results/) for all 8 figures.
+
 ---
 
 ## 🏗️ Project Structure

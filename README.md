@@ -50,7 +50,7 @@ optimal-execution-CLEAN/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Installation
 
@@ -127,7 +127,7 @@ The test suite validates:
 
 ---
 
-## 📊 Results
+##  Results
 
 ### Performance Metrics
 
@@ -159,7 +159,7 @@ See [`results/`](results/) for all 8 figures.
 
 ---
 
-## 🔬 Mathematical Model
+##  Mathematical Model
 
 The solver minimizes total trading cost:
 
@@ -180,7 +180,7 @@ Where:
 
 ---
 
-## 🛠️ Advanced Usage
+##  Advanced Usage
 
 ### Custom Calibration
 
@@ -208,7 +208,7 @@ result = solver.solve()
 
 ---
 
-## 🎯 Why 3 Solvers?
+##  Why 3 Solvers?
 
 This repo includes **3 optimization approaches** to demonstrate rigorous methodology:
 
@@ -247,7 +247,7 @@ Contributions welcome! Please:
 
 ---
 
-## 📝 License
+##  License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 

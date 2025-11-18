@@ -5,7 +5,6 @@
 [![Tests](https://img.shields.io/badge/tests-18%2F18%20passing-brightgreen)](#testing)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ---
 
@@ -24,26 +23,49 @@ This library implements **globally optimal execution strategies** for large inst
 
 ---
 
+## 📁 Project Structure
+
+```
+optimal-execution-CLEAN/
+│
+├── code/                      ← ALL PYTHON FILES
+│   ├── solver.py              ← MAIN (Differential Evolution) ✅ PRODUCTION
+│   ├── solver_sqp.py          ← SQP attempt (archived - 24% failures)
+│   ├── solver_dp.py           ← DP attempt (archived - 28% failures)
+│   ├── tests.py               ← 18 validation tests
+│   ├── calibrator.py          ← Parameter calibration
+│   └── example.py             ← START HERE
+│
+├── data/                      ← 11 JSON calibrated parameters
+├── results/                   ← 8 PNG visualizations (300 DPI)
+│
+├── README.md                  ← You are here
+├── COMPARISON.md              ← WHY DE won over DP & SQP
+├── NAVIGATION.md              ← Detailed guide
+└── requirements.txt           ← Dependencies
+```
+
+**See [NAVIGATION.md](NAVIGATION.md) for detailed folder guide.**  
+**See [COMPARISON.md](COMPARISON.md) for solver comparison (perfect for interviews!).**
+
+---
+
 ## 🚀 Quick Start
 
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/optimal-execution-de.git
-cd optimal-execution-de
+git clone https://github.com/yourusername/optimal-execution-CLEAN.git
+cd optimal-execution-CLEAN
 
-python3 -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
+# Install dependencies
 pip install -r requirements.txt
-# OR for development:
-pip install -e .
 ```
 
 ### Run Your First Optimization
 
 ```python
-from optimal_execution.solvers import OptimalExecutionRealistic
+from code.solver import OptimalExecutionRealistic
 
 # Initialize with SNAP stock parameters (calibrated from real data)
 solver = OptimalExecutionRealistic(
@@ -71,16 +93,18 @@ Improvement vs TWAP: 5.7%
 Strategy: [15432, 12845, 11023, 9654, 8532, 7543, 6721, 5982, 5234, 17034]
 ```
 
-See [`examples/quickstart.py`](examples/quickstart.py) for a complete walkthrough.
+See [`code/example.py`](code/example.py) for a complete walkthrough.
 
----
+**Quick Commands:**
+```bash
+# Run example
+python code/example.py
 
-## 📚 Documentation
+# Run all tests (18 validation tests)
+python code/tests.py
+```
 
-- **[Quick Start Guide](docs/USAGE.md)** - Get started in 5 minutes
-- **[API Reference](docs/API.md)** - Complete API documentation
-- **[Theory & Background](docs/THEORY.md)** - Mathematical foundations
-- **[Calibration Guide](examples/calibration_workflow.py)** - Parameter calibration from market data
+**Expected:** ✅ 18/18 tests pass, 5.7% improvement vs TWAP
 
 ---
 
@@ -89,11 +113,7 @@ See [`examples/quickstart.py`](examples/quickstart.py) for a complete walkthroug
 Run the comprehensive test suite:
 
 ```bash
-# All tests (18 validation tests)
-python tests/validation/test_bulletproof.py
-
-# Or using pytest
-pytest tests/ -v
+python code/tests.py
 ```
 
 **Test Results:** ✅ 18/18 passing (100% success rate)
@@ -129,52 +149,13 @@ The test suite validates:
 
 Publication-quality figures (300 DPI) from Monte Carlo analysis:
 
-![Monte Carlo Cost Distributions](docs/images/results/monte_carlo_cost_distributions.png)
+![Monte Carlo Results](results/monte_carlo_cost_distributions.png)
 *Cost distributions across 50 Monte Carlo scenarios for 5 stocks*
 
-![Trading Trajectories](docs/images/results/trading_trajectories_optimal_vs_twap.png)
+![Trading Trajectories](results/trading_trajectories_optimal_vs_twap.png)
 *Optimal execution strategy vs TWAP baseline - demonstrates front-loading*
 
-![Liquidity Impact Dashboard](docs/images/results/liquidity_impact_dashboard.png)
-*Comprehensive 4-panel analysis dashboard*
-
-See [`docs/images/results/`](docs/images/results/) for all 8 figures.
-
----
-
-## 🏗️ Project Structure
-
-```
-optimal-execution-de/
-├── optimal_execution/          # Main package
-│   ├── solvers/                # Optimization algorithms
-│   │   └── differential_evolution.py  # Main DE solver
-│   ├── calibration/            # Parameter calibration
-│   │   └── liquidity_calibrator.py
-│   ├── models/                 # Cost models
-│   ├── constraints/            # Trading constraints
-│   └── utils/                  # Utilities
-│
-├── tests/                      # Test suite
-│   ├── validation/             # 18-test validation suite
-│   ├── unit/                   # Unit tests
-│   └── integration/            # Integration tests
-│
-├── examples/                   # Usage examples
-│   ├── quickstart.py           # Basic example
-│   ├── monte_carlo_simulation.py  # Statistical validation
-│   └── compare_solvers.py      # Solver comparison
-│
-├── data/                       # Data files
-│   └── calibration/            # Calibrated parameters (JSON)
-│
-├── docs/                       # Documentation
-│   ├── THEORY.md               # Mathematical background
-│   ├── USAGE.md                # User guide
-│   └── API.md                  # API reference
-│
-└── notebooks/                  # Jupyter tutorials
-```
+See [`results/`](results/) for all 8 figures.
 
 ---
 
@@ -204,7 +185,7 @@ Where:
 ### Custom Calibration
 
 ```python
-from optimal_execution.calibration import LiquidityCalibrator
+from code.calibrator import LiquidityCalibrator
 
 # Calibrate from market data
 calibrator = LiquidityCalibrator()
@@ -215,19 +196,29 @@ solver = OptimalExecutionRealistic(**params)
 result = solver.solve()
 ```
 
-### Monte Carlo Analysis
+### Available Pre-Calibrated Data
 
-```bash
-cd examples
-python monte_carlo_simulation.py --stocks AAPL MSFT NVDA --simulations 1000
-```
+11 stocks in `data/` folder:
+- `calibration_AAPL.json` - Apple
+- `calibration_MSFT.json` - Microsoft
+- `calibration_NVDA.json` - NVIDIA
+- `calibration_SNAP.json` - Snap
+- `calibration_SPY.json` - S&P 500 ETF
+- And 6 more...
 
-### Compare Multiple Solvers
+---
 
-```bash
-cd examples
-python compare_solvers.py --ticker SNAP --order-size 100000
-```
+## 🎯 Why 3 Solvers? (For Interviews)
+
+This repo includes **3 optimization approaches** to demonstrate rigorous methodology:
+
+1. **Dynamic Programming** (`code/solver_dp.py`) - ❌ 28% failures
+2. **Sequential Quadratic Programming** (`code/solver_sqp.py`) - ❌ 24% failures  
+3. **Differential Evolution** (`code/solver.py`) - ✅ 0% failures (PRODUCTION)
+
+**See [COMPARISON.md](COMPARISON.md) for full technical breakdown** - perfect for recruiter discussions!
+
+**Key Talking Point:** *"I systematically explored three optimization methods, validated each through perturbation testing, and chose the one with provably optimal results."*
 
 ---
 
@@ -250,7 +241,7 @@ Contributions welcome! Please:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Run tests (`pytest tests/`)
+3. Run tests (`python code/tests.py`)
 4. Commit changes (`git commit -m 'Add amazing feature'`)
 5. Push to branch (`git push origin feature/amazing-feature`)
 6. Open a Pull Request
@@ -272,7 +263,7 @@ If you use this code in academic research, please cite:
   author = {Your Name},
   title = {Optimal Execution with Differential Evolution},
   year = {2025},
-  url = {https://github.com/yourusername/optimal-execution-de}
+  url = {https://github.com/yourusername/optimal-execution-CLEAN}
 }
 ```
 
@@ -282,7 +273,7 @@ If you use this code in academic research, please cite:
 
 - Almgren & Chriss (2001) for the foundational framework
 - Curato et al. (2014) for realistic market impact calibration
-- Scipy's Differential Evolution implementation
+- SciPy's Differential Evolution implementation
 
 ---
 
@@ -291,6 +282,14 @@ If you use this code in academic research, please cite:
 - **Author:** Your Name
 - **Email:** your.email@example.com
 - **GitHub:** [@yourusername](https://github.com/yourusername)
+
+---
+
+## 📚 Additional Documentation
+
+- **[NAVIGATION.md](NAVIGATION.md)** - Detailed folder guide
+- **[COMPARISON.md](COMPARISON.md)** - Solver comparison analysis
+- **[theory.md](theory.md)** - Mathematical theory template
 
 ---
 
